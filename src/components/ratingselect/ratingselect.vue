@@ -48,7 +48,7 @@
 
 <style type="text/css">
 	.ratingselect{
-
+		
 	}
 	.rating-type{
 		padding: 18px 0;

@@ -56,10 +56,10 @@
 
 	}
 	.star-48 .star-item{
-		width: 20px;
-		height: 20px;
-		margin-right: 22px;
-		background-size: 20px 20px;
+		width: 15px;
+		height: 15px;
+		margin-right: 20px;
+		background-size: 15px 15px;
 		 
 	}
 	.on{

@@ -33,21 +33,20 @@
 		<div class="showRating">
 			<h1 class="ratingTitle">商品评价</h1>
 			<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
-			<!-- <div>{{food.ratings}}</div> -->
 			<div class="ratingbox">
 				<ul v-show="food.ratings && food.ratings.length">
-					<li v-for="rating in food.ratings" class="ratingItem">
+					<li v-show="needShoow(rating.rateType,rating.text)" v-for="rating in food.ratings" class="ratingItem">
 						<div class="user">
 							<span class="username">{{rating.username}}</span>
 							<img :src="rating.avatar" class="useravater" width="12" height="12">
 						</div>
-						<div class="time">{{rating.rateTime}}</div>
+						<div class="time">{{rating.rateTime | formatData}}</div>
 						<p class="comment">
 							<span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>{{rating.text}}
 						</p>
 					</li>
 				</ul>
-				<div class="norating" v-show="!food.ratings||food.ratings.length"></div>
+				<div class="norating" v-show="!food.ratings||food.ratings.length">暂无评价</div>
 			</div>
 		</div>
 	</div>
@@ -59,7 +58,7 @@ import cartcontrol from '../cartcontrol/cartcontrol';
 import Vue from 'vue';
 import split from '../split/split';
 import ratingselect from '../ratingselect/ratingselect';
-
+import {formatDate} from '../../common/date'
 	const POSITIVE = 0;
 	const NEGATIVE =1;
 	const ALL =2;
@@ -81,14 +80,17 @@ import ratingselect from '../ratingselect/ratingselect';
 			 	}
 			 }
 		},
+		filters:{
+			formatData(time){
+				let date = new Date(time);
+				return formatDate(date,'yyyy-MM-dd hh:mm');
+			}
+		},
 		methods:{
 			show(){
 				this.showFlag=true;
 				this.selectType =POSITIVE;
 				this.onlyContent =true;
-				this.$nextTick(function(){
-					console.log(this.food)
-				})
 
 			},
 			hide(){
@@ -96,6 +98,17 @@ import ratingselect from '../ratingselect/ratingselect';
 			},
 			addfirst(event){
 				Vue.set(this.food,'count',1)
+			},
+			needShoow(type,text){
+				if(this.onlyContent && !text){
+					return false;
+				}
+				if(this.selectType ===ALL){
+					return true
+				}else{
+					return type===this.selectType;
+				}
+
 			}
 		},
 		components:{
@@ -263,7 +276,11 @@ import ratingselect from '../ratingselect/ratingselect';
 	.icon-thumb_down{
 		color: rgb(147,153,155);
 	}
-
+	.norating{
+		padding: 16px 0;
+		 font-size: 12px;
+		 color: rgb(147,153,159);
+	}
 
 
 
