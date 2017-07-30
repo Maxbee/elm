@@ -2,8 +2,6 @@ export function formatDate(date,fmt){
 
 	if(/(y+)/.test(fmt)){
 		fmt = fmt.replace(RegExp.$1,(date.getFullYear()+'').substr(4-RegExp.$1.length));
-		console.log(fmt+'-------1-----------'+RegExp.$1)
-
 		}
 			let o ={
 		'M+':date.getMonth()+1,
@@ -18,11 +16,9 @@ export function formatDate(date,fmt){
 		if(new RegExp(`(${k})`,'i').test(fmt)){
 			let str = o[k]+'';
 		
-			fmt =fmt.replace(RegExp.$1,str)
-		console.log(fmt+'==================2=============='+RegExp.$1)
+			fmt =fmt.replace(RegExp.$1,str)	
 		}
 	}
-	
 
 	return fmt;
 }
